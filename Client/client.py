@@ -18,15 +18,18 @@ def main():
 				sys.exit()
 			if event.type == MOUSEBUTTONDOWN:
 				position = pygame.mouse.get_pos()
+				if pygame.Rect(0, 635, 150, 25).colliedpoint(position):
+					text = Create()
+					handle_request(("10.0.0.147", 80), "SEARCH")
 				if pygame.Rect(0, 0, 1360, 30).collidepoint(position):
 					search = Search()
 					if search == None:
 						continue
 					else:
 						urls = handle_request(("10.0.0.147", 80), "SEARCH", search)
-						url = UrlPage()
+						url = UrlPage(urls)
 						text = handle_request(("10.0.0.147", 80), "GET_TEXT", url)
-						DisplayURL()
+						DisplayURL(text)
 		pygame.display.update()
 def Search():
 	text = ""
@@ -205,4 +208,6 @@ def Search():
 					if event.key == K_0:
 						text += '0'
 		pygame.display.update()
+def UrlPage(txt):
+	
 main()
