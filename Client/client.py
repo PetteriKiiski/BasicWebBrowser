@@ -8,7 +8,7 @@ SearchBar = pygame.image.load("SearchBar.png")
 def main():
 	basicFont = pygame.font.SysFont(None, 25)
 	while True:
-		displaying = basicFont.render("create", True, (0,0,0), (255,255,255))
+		displaying = basicFont.render("create", True, (0, 0, 255), (255, 255, 255))
 		canvas.fill((255, 255, 255))
 		canvas.blit(SearchBar, (0, 0))
 		canvas.blit(displaying, (0, 635))
@@ -36,11 +36,13 @@ def Search():
 	shifted = False
 	basicFont = pygame.font.SysFont(None, 25)
 	breakout = False
+	create = basicFont.render("create", True, (0, 0, 255), (255, 255, 255))
 	while not breakout:
 		canvas.fill((255, 255, 255))
 		displaying = basicFont.render(text, True, (0,0,0), (255,255,255))
 		canvas.blit(displaying, (10, 7))
 		canvas.blit(SearchBar, (0, 0))
+		canvas.blit(create, (0, 635))
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				return None
@@ -60,8 +62,24 @@ def Search():
 					continue
 				if len(text) == 50:
 					continue
-				text+= event.unicode
+				text += event.unicode
 		pygame.display.update()
-def UrlPage(txt):
-	pass
+def UrlPage(urls):
+	basicFont = pygame.font.SysFont(None, 25)
+	create = basicFont.render("create", True, (0, 0, 255), (255, 255, 255))
+	breakout = False
+	start = 0
+	while not breakout:
+		canvas.fill((255, 255, 255))
+		canvas.blit(create, (0, 635))
+		for url in urls[start:start+30 if start+30 < len(urls) else len(urls) - 1]:
+			if pygame.mouse.get_pos().collidepoint(pygame.Rect(0, 40 + 25 * (urls.index(url) - start), 1360, 25)):
+				create.set_underline(True)
+			display = basicFont.render(url, True, (0, 0, 255), (255, 255, 255))
+			canvas.blit(display, (0, 40 + 25 * (urls.index(url) - start)))
+			create.set_underline(False)
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				return None
+		pygame.display.update()
 main()
